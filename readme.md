@@ -1,4 +1,6 @@
-Overklig motor
+# Overklig motor
 
-Let's go
+## _Det sjukaste sommarprojketet som någonsin skådats_
+
+Välkommen till overklig motor, en grafikmotor som skapats för att bygga BoSS
 
