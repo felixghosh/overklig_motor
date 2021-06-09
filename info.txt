@@ -1,0 +1,3 @@
+Instruktioner:
+
+installera glut och glew, borde funka med pacman eller nåt. Skiter i vilket. Funkar på ubuntu iaf.
