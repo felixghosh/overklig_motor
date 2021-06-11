@@ -108,7 +108,7 @@ void get_colors() {
 	//chartreuse = tmp.pixel;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	std::cout << "Hello world! FECK FECK FECK" << std::endl;
 	init_x();
