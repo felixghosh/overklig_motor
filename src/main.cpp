@@ -2,7 +2,7 @@
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 
-GLFWwindow* window;
+
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -27,7 +27,8 @@ void processInput(GLFWwindow *window) {
 	}
 }
 
-int init(){
+int main()
+{
 	//Init glfw and set version/profile
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -35,14 +36,17 @@ int init(){
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//Create window and set the OpenGL context to the context of our window
-	window = glfwCreateWindow(800, 600, "Overklig", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 600, "Overklig", NULL, NULL);
 	if(window == NULL) {
 		std::cout << "Failed to create GLFW window!" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	//glViewport(0, 0, 800, 600);
 
+	
 	//Init GLAD
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
@@ -92,24 +96,10 @@ int init(){
 		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
 		std::cout << "ERROR::LINKING::LINKING_FAILED\n" << infoLog << std::endl;
 	}
-
-	//use the program
-	glUseProgram(shaderProgram);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-
-	glViewport(0, 0, 800, 600);
-
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	return 0;
-}
-
-int main()
-{
-	if(init() == -1){
-		return -1;
-	}
-
+	
+	//set up vertices
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
@@ -117,9 +107,19 @@ int main()
 	};
 
 	unsigned int VBO;
+	unsigned int VAO;
 	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &VAO);
+
+	//Bind Vertex Array Object
+	glBindVertexArray(VAO);
+
+	//copy vertex arry into a VBO
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//set vertex attributes pointers
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 	
 	//Main loop
 	while(!glfwWindowShouldClose(window)) {
@@ -129,6 +129,9 @@ int main()
 		//render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glUseProgram(shaderProgram);
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		//check and call events and swap buffers
 		glfwSwapBuffers(window);
