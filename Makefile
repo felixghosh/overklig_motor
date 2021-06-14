@@ -12,7 +12,7 @@ CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -lX11 -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl include/glad/glad.c
+LFLAGS = -lX11 -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl include/glad/glad.c src/shader.h
 
 # define output directory
 OUTPUT	:= output
