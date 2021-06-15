@@ -90,6 +90,10 @@ public:
         //std::cout << "USING SHADER PROGRAM BOIIII" << std::endl;
         glUseProgram(ID);
     }
+
+    unsigned int getProgram() {
+        return ID;
+    }
     //utility uniform functions
     void setBool(const std::string &name, bool value) const {
         glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
